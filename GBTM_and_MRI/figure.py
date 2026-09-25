@@ -232,6 +232,7 @@ def draw(tag: str | None = None, out_name: str | None = None):
                    loc="lower left", ncol=1, frameon=False, fontsize=11,
                    bbox_to_anchor=(traj_left - 0.01, -0.002))
 
+        cfg.FIGURES.mkdir(parents=True, exist_ok=True)
         out = cfg.FIGURES / (out_name or f"GBTM_MRI_{tag}.png")
         fig.savefig(out, dpi=cfg.DPI, bbox_inches="tight", facecolor="white")
         plt.close(fig)

@@ -345,6 +345,10 @@ def run(tag: str | None = None, n_starts: int | None = None, n_boot: int | None 
         a[f"post_{c}"] = post_sorted[:, c - 1]
     a["post_max"] = post_sorted.max(axis=1)
     a["label"] = a.subtype.map(labels)
+    # Re-assert the output directory here, not only at the start: the fit above is the
+    # expensive part of the run, and it must not be thrown away because results/ went missing
+    # while it was working (a move, a cleanup, a synced folder).
+    cfg.RESULTS.mkdir(parents=True, exist_ok=True)
     a.to_csv(out_path(tag, "assignments"), index=False)
 
     hourly = h.merge(a[["patient_id", "subtype", "label"]], on="patient_id", how="left")
